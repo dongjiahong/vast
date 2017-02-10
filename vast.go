@@ -10,7 +10,7 @@ type VAST struct {
 	// documentation, usually an insertion order. These line item ads typically
 	// specify the creative to display, price, delivery schedule, targeting,
 	// and so on.
-	Ads []Ad `xml:"Ad"`
+	Ads []*Ad `xml:"Ad"`
 	// Contains a URI to a tracking resource that the video player should request
 	// upon receiving a “no ad” response
 	Errors []string `xml:"Error"`
@@ -42,9 +42,9 @@ type InLine struct {
 	AdTitle string
 	// One or more URIs that directs the video player to a tracking resource file that the
 	// video player should request when the first frame of the ad is displayed
-	Impressions []Impression `xml:"Impression"`
+	Impressions []*Impression `xml:"Impression"`
 	// The container for one or more <Creative> elements
-	Creatives []Creative `xml:"Creatives>Creative"`
+	Creatives []*Creative `xml:"Creatives>Creative"`
 	// A string value that provides a longer description of the ad.
 	Description string `xml:",omitempty"`
 	// The name of the advertiser as defined by the ad serving party.
@@ -110,12 +110,12 @@ type Wrapper struct {
 	VASTAdTagURI string
 	// One or more URIs that directs the video player to a tracking resource file that the
 	// video player should request when the first frame of the ad is displayed
-	Impressions []Impression `xml:"Impression"`
+	Impressions []*Impression `xml:"Impression"`
 	// A URI representing an error-tracking pixel; this element can occur multiple
 	// times.
 	Errors []string `xml:"Error,omitempty"`
 	// The container for one or more <Creative> elements
-	Creatives []CreativeWrapper `xml:"Creatives>Creative"`
+	Creatives []*CreativeWrapper `xml:"Creatives>Creative"`
 	// XML node for custom extensions, as defined by the ad server. When used, a
 	// custom element should be nested under <Extensions> to help separate custom
 	// XML elements from VAST elements. The following example includes a custom
@@ -152,13 +152,13 @@ type CompanionAds struct {
 	// Provides information about which companion creative to display.
 	// All means that the player must attempt to display all. Any means the player
 	// must attempt to play at least one. None means all companions are optional
-	Required   string      `xml:"required,attr,omitempty"`
-	Companions []Companion `xml:"Companion,omitempty"`
+	Required   string       `xml:"required,attr,omitempty"`
+	Companions []*Companion `xml:"Companion,omitempty"`
 }
 
 // NonLinearAds contains non linear creatives
 type NonLinearAds struct {
-	TrackingEvents []Tracking `xml:"TrackingEvents>Tracking,omitempty"`
+	TrackingEvents []*Tracking `xml:"TrackingEvents>Tracking,omitempty"`
 	// Non linear creatives
 	NonLinears []NonLinear `xml:"NonLinear,omitempty"`
 }
@@ -184,15 +184,15 @@ type CompanionAdsWrapper struct {
 	// Provides information about which companion creative to display.
 	// All means that the player must attempt to display all. Any means the player
 	// must attempt to play at least one. None means all companions are optional
-	Required   string             `xml:"required,attr,omitempty"`
-	Companions []CompanionWrapper `xml:"Companion,omitempty"`
+	Required   string              `xml:"required,attr,omitempty"`
+	Companions []*CompanionWrapper `xml:"Companion,omitempty"`
 }
 
 // NonLinearAdsWrapper contains non linear creatives in a wrapper
 type NonLinearAdsWrapper struct {
-	TrackingEvents []Tracking `xml:"TrackingEvents>Tracking,omitempty"`
+	TrackingEvents []*Tracking `xml:"TrackingEvents>Tracking,omitempty"`
 	// Non linear creatives
-	NonLinears []NonLinearWrapper `xml:"NonLinear,omitempty"`
+	NonLinears []*NonLinearWrapper `xml:"NonLinear,omitempty"`
 }
 
 // Linear is the most common type of video advertisement trafficked in the
@@ -212,19 +212,19 @@ type Linear struct {
 	// begins playing.
 	SkipOffset *Offset `xml:"skipoffset,attr,omitempty"`
 	// Duration in standard time format, hh:mm:ss
-	Duration           Duration
+	Duration           *Duration
 	AdParameters       *AdParameters `xml:",omitempty"`
-	Icons              []Icon
-	TrackingEvents     []Tracking          `xml:"TrackingEvents>Tracking,omitempty"`
+	Icons              []*Icon
+	TrackingEvents     []*Tracking         `xml:"TrackingEvents>Tracking,omitempty"`
 	VideoClicks        *VideoClicks        `xml:",omitempty"`
-	MediaFiles         []MediaFile         `xml:"MediaFiles>MediaFile,omitempty"`
+	MediaFiles         []*MediaFile        `xml:"MediaFiles>MediaFile,omitempty"`
 	CreativeExtensions *CreativeExtensions `xml:",omitempty"`
 }
 
 // LinearWrapper defines a wrapped linear creative
 type LinearWrapper struct {
-	Icons              []Icon
-	TrackingEvents     []Tracking          `xml:"TrackingEvents>Tracking,omitempty"`
+	Icons              []*Icon
+	TrackingEvents     []*Tracking         `xml:"TrackingEvents>Tracking,omitempty"`
 	VideoClicks        *VideoClicks        `xml:",omitempty"`
 	CreativeExtensions *CreativeExtensions `xml:",omitempty"`
 }
@@ -255,7 +255,7 @@ type Companion struct {
 	AltText string `xml:",omitempty"`
 	// The creativeView should always be requested when present. For Companions
 	// creativeView is the only supported event.
-	TrackingEvents []Tracking `xml:"TrackingEvents>Tracking,omitempty"`
+	TrackingEvents []*Tracking `xml:"TrackingEvents>Tracking,omitempty"`
 	// Data to be passed into the companion ads. The apiFramework defines the method
 	// to use for communication (e.g. “FlashVar”)
 	AdParameters *AdParameters `xml:",omitempty"`
@@ -297,7 +297,7 @@ type CompanionWrapper struct {
 	AltText string `xml:",omitempty"`
 	// The creativeView should always be requested when present. For Companions
 	// creativeView is the only supported event.
-	TrackingEvents []Tracking `xml:"TrackingEvents>Tracking,omitempty"`
+	TrackingEvents []*Tracking `xml:"TrackingEvents>Tracking,omitempty"`
 	// Data to be passed into the companion ads. The apiFramework defines the method
 	// to use for communication (e.g. “FlashVar”)
 	AdParameters *AdParameters `xml:",omitempty"`
@@ -368,7 +368,7 @@ type NonLinearWrapper struct {
 	// The apiFramework defines the method to use for communication with the nonlinear element.
 	APIFramework string `xml:"apiFramework,attr,omitempty"`
 	// The creativeView should always be requested when present.
-	TrackingEvents []Tracking `xml:"TrackingEvents>Tracking,omitempty"`
+	TrackingEvents []*Tracking `xml:"TrackingEvents>Tracking,omitempty"`
 	// URLs to ping when user clicks on the the non-linear ad.
 	NonLinearClickTracking []string            `xml:",omitempty"`
 	CreativeExtensions     *CreativeExtensions `xml:",omitempty"`
@@ -445,9 +445,9 @@ type AdParameters struct {
 
 // VideoClicks contains types of video clicks
 type VideoClicks struct {
-	ClickThroughs  []VideoClick `xml:"ClickThrough,omitempty"`
-	ClickTrackings []VideoClick `xml:"ClickTracking,omitempty"`
-	CustomClicks   []VideoClick `xml:"CustomClick,omitempty"`
+	ClickThroughs  []*VideoClick `xml:"ClickThrough,omitempty"`
+	ClickTrackings []*VideoClick `xml:"ClickTracking,omitempty"`
+	CustomClicks   []*VideoClick `xml:"CustomClick,omitempty"`
 }
 
 // VideoClick defines a click URL for a linear creative
@@ -496,12 +496,12 @@ type MediaFile struct {
 
 // Extensions defines extensions
 type Extensions struct {
-	Extensions []Extension `xml:",omitempty"`
+	Extensions []*Extension `xml:",omitempty"`
 }
 
 // CreativeExtensions defines extensions for creatives
 type CreativeExtensions struct {
-	Extensions []Extension `xml:"CreativeExtension,omitempty"`
+	Extensions []*Extension `xml:"CreativeExtension,omitempty"`
 }
 
 // Extension represent aribtrary XML provided by the platform to extend the VAST response
